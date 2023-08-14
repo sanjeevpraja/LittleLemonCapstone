@@ -1,0 +1,53 @@
+@import 'commons/_color';
+@import 'commons/_typography';
+
+body{
+  font-family: $body-font;
+}
+.nav-menu{
+ font-weight: bold;
+}
+.mid-container{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.hero-wrap{
+  background: $primary;
+  color: #FFFFFF;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+h1,h2,h3,h4,h5,h6{
+  font-family: $head-font;
+}
+
+.image-merge{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .image-1{
+    height: 300px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .image-2{
+    height: 300px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+  }
+}
+
+.footer{
+  padding-top: 50px;
+  background: $primary;
+  color: #ffffff;
+  font-size: .9rem;
+  h1,h2,h3,h4,h5,h6{
+    color: $secondary;
+  }
+}
