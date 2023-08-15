@@ -2,7 +2,7 @@ import React from "react";
 import Header from './components/Header';
 import FooterWithLogoLeft from "./components/Footer";
 import Home from "./pages/Home";
-import BookingForm from "./pages/BookingForm";
+import Booking from "./pages/Booking";
 import Components from "./pages/Components";
 import {ChakraProvider} from "@chakra-ui/react";
 import Color from 'color';
@@ -64,7 +64,7 @@ function App() {
         <Router>
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route exact path="/reservation" element={<BookingForm />} />
+            <Route exact path="/reservation" element={<Booking />} />
             <Route exact path="/components" element={<Components />} />
           </Routes>
         </Router>,
