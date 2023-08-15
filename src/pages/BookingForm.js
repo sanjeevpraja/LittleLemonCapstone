@@ -1,14 +1,14 @@
-import Hero from './components/hero';
+import Hero from '.././components/Hero';
 import React, {useState} from "react";
 import {
   Box,
-  Button,
+  Button, Divider,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Grid,
   GridItem,
-  Input, Select, Textarea,
+  Input, Select, Spacer, Textarea,
   VStack
 } from "@chakra-ui/react";
 
@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 
 
 const content = {
-  title: 'Reservation',
+  title: 'BookingForm',
   subTitle: 'Please fill form to reserve table',
   desc: 'You can call us if you need to change or cancel reservation',
   btnLabel: ''
@@ -27,27 +27,39 @@ const imgStyle = {
   height: '300px',
   borderRadius: '15px'
 };
+//const initiAlavailableTimes = ['17:00 PM', '18:00 PM', '19:00 PM', '20:00 PM', '21:00 PM', '22:00 PM'];
 
-export default function Reservation(){
+
+export default function BookingForm(){
   const [startDate, setStartDate] = useState(new Date());
+  //const [availableTimes, setAvailableTimes] = useState(initiAlavailableTimes);
+
+  // const initializeTimes = initialAvailableTimes =>
+  //   [...initialAvailableTimes, ...fetchAPI(new Date())];
 
   const yupValidation = Yup.object({
     firstName: Yup.string().min(3, "Must be at least 3 characters").required("Required"),
     email: Yup.string().email("Must be email").required("Required"),
     phone: Yup.number().required("Required"),
     remarks:  Yup.string().min(50, "Must be at least 3 characters").required("Required"),
-    branch: Yup.string().required("Required"),
+
     date: Yup.date().required("Required"),
+    time: Yup.string().required("Required"),
+    number: Yup.number().required("Required"),
+    occasion: Yup.number().required("Required"),
   });
 
   const formik = useFormik({
     initialValues: {
       firstName: '',
       email: '',
-      number: '',
+      phone: '',
       remarks: '',
-      branch:'',
+
       date: startDate,
+      time: '',
+      number: '',
+      occasion: '',
     },
     onSubmit: async (values) => {
       try {
@@ -66,35 +78,6 @@ export default function Reservation(){
           <GridItem w='100%'>
               <form onSubmit={formik.handleSubmit}>
                 <VStack spacing={4}>
-                  <FormControl isInvalid={formik.touched.branch && formik.errors.branch ? 'true' : 'false'} isRequired>
-                    <FormLabel htmlFor='branch'>Branch</FormLabel>
-                    <Select placeholder='Select Branch'
-                            id='branch'
-                            name={'branch'}
-                            onChange={formik.handleChange}
-                            value={formik.values.branch}
-                            isInvalid={formik.touched.branch && formik.errors.branch ? 'true' : ''}
-                    >
-                      <option value='option1'>Option 1</option>
-                      <option value='option2'>Option 2</option>
-                      <option value='option3'>Option 3</option>
-                    </Select>
-                    <FormErrorMessage>{formik.errors.branch}</FormErrorMessage>
-                  </FormControl>
-                  <FormControl isInvalid={formik.touched.date && formik.errors.date ? 'true' : 'false'} isRequired>
-                    <FormLabel htmlFor='date'>Choose Date</FormLabel>
-                    <Input
-                      id="date"
-                      name="date"
-                      placeholder="Select Date and Time"
-                      size="md"
-                      type="datetime-local"
-                      onChange={formik.handleChange}
-                      value={formik.values.date}
-                      isInvalid={formik.touched.date && formik.errors.date ? 'true' : ''}
-                    />
-                    <FormErrorMessage>{formik.errors.date}</FormErrorMessage>
-                  </FormControl>
                   <FormControl isInvalid={formik.touched.firstName && formik.errors.firstName ? 'true' : 'false'} isRequired>
                     <FormLabel htmlFor="firstName">First Name</FormLabel>
                     <Input
@@ -110,6 +93,7 @@ export default function Reservation(){
                   <FormControl isInvalid={formik.touched.email && formik.errors.email ? 'true' : 'false'} isRequired>
                     <FormLabel htmlFor="email">Email</FormLabel>
                     <Input
+                      type='email'
                       id="email"
                       name="email"
                       onChange={formik.handleChange}
@@ -122,6 +106,7 @@ export default function Reservation(){
                   <FormControl isInvalid={formik.touched.phone && formik.errors.phone ? 'true' : 'false'} isRequired>
                     <FormLabel htmlFor="phone">Phone Number</FormLabel>
                     <Input
+                      type='tel'
                       id="phone"
                       name="phone"
                       onChange={formik.handleChange}
@@ -143,9 +128,73 @@ export default function Reservation(){
                     />
                     <FormErrorMessage>{formik.errors.remarks}</FormErrorMessage>
                   </FormControl>
+
+                  <Divider orientation='horizontal' />
+                  <FormControl isInvalid={formik.touched.date && formik.errors.date ? 'true' : 'false'} isRequired>
+                    <FormLabel htmlFor='date'>Choose Date</FormLabel>
+                    <Input
+                      type='date'
+                      id="date"
+                      name="date"
+                      placeholder="Select Date and Time"
+                      size="md"
+                      onChange={formik.handleChange}
+                      value={formik.values.date}
+                      isInvalid={formik.touched.date && formik.errors.date ? 'true' : ''}
+                    />
+                    <FormErrorMessage>{formik.errors.date}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={formik.touched.time && formik.errors.time ? 'true' : 'false'} isRequired>
+                    <FormLabel htmlFor='time'>Time</FormLabel>
+                    <Select placeholder='Select Time'
+                            id='time'
+                            name={'time'}
+                            onChange={formik.handleChange}
+                            value={formik.values.time}
+                            isInvalid={formik.touched.time && formik.errors.time ? 'true' : ''}
+                    >
+                      <option value='17'>17:00</option>
+                      <option value='18'>18:00</option>
+                      <option value='19'>19:00</option>
+                      <option value='20'>20:00</option>
+                      <option value='21'>21:00</option>
+                      <option value='22'>22:00</option>
+                    </Select>
+                    <FormErrorMessage>{formik.errors.time}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={formik.touched.number && formik.errors.number ? 'true' : 'false'} isRequired>
+                    <FormLabel htmlFor="number">Number of Guests</FormLabel>
+                    <Input
+                      type='number'
+                      id="number"
+                      name="number"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.number}
+                      isInvalid={formik.touched.number && formik.errors.number ? 'true' : ''}
+                    />
+                    <FormErrorMessage>{formik.errors.number}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={formik.touched.occasion && formik.errors.occasion ? 'true' : 'false'} isRequired>
+                    <FormLabel htmlFor='occasion'>Occasion</FormLabel>
+                    <Select placeholder='Select Occasion'
+                            id='occasion'
+                            name={'occasion'}
+                            onChange={formik.handleChange}
+                            value={formik.values.occasion}
+                            isInvalid={formik.touched.occasion && formik.errors.occasion ? 'true' : ''}
+                    >
+                      <option value='birthday'>Birthday</option>
+                      <option value='anniversary'>Anniversary</option>
+                      <option value='business'>Business</option>
+                      <option value='casual'>Casual</option>
+                      <option value='other'>Other</option>
+                    </Select>
+                    <FormErrorMessage>{formik.errors.occasion}</FormErrorMessage>
+                  </FormControl>
                 </VStack>
                 <Button type="submit" colorScheme="purple" colorScheme={"primary"} mt={5}>
-                  Submit
+                  Make Your Reservation
                 </Button>
               </form>
           </GridItem>

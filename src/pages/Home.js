@@ -1,7 +1,7 @@
-import Hero from './components/hero';
-import MenuCards from "./components/card";
-import Testimonials from "./components/testimonials";
-import Banner from "./components/banner";
+import Hero from '.././components/Hero';
+import MenuCards from ".././components/Card";
+import Testimonials from ".././components/Testimonials";
+import Banner from ".././components/Banner";
 import {Box, Button, Flex, Heading} from "@chakra-ui/react";
 import React from "react";
 
