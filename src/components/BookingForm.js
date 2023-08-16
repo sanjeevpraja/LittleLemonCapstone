@@ -1,39 +1,24 @@
 import {
   Button,
-  Divider,
+  //Divider,
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
   Select,
-  Textarea,
+  //Textarea,
   VStack
 } from "@chakra-ui/react";
-import React, { useState} from "react";
+import React, {useReducer, useState} from "react";
 
 export default function BookingForm(){
-
-
-  const initialAvailableTimes = ['17:00 PM', '18:00 PM', '19:00 PM', '20:00 PM', '21:00 PM', '22:00 PM'];
 
   const [form, setForm] = useState({
     firstName: {value: '', isTouched: false, error: ''},
     email: {value: '', isTouched: false, error: '' },
     phone: {value: '', isTouched: false, error: '' },
+    time: {value: '', isTouched: false, error: '' },
   });
-
-  // const [firstName, setFirstName] = useState(0);
-  // const [email, setEmail] = useState(0);
-  // const [phone, setPhone] = useState(0);
-  // const [remarks, setRemarks] = useState(0);
-  //
-  // //const [selectDate, setSelectDate] = useState(new Date());
-  // const [date, setDate] = useState(new Date());
-  // const [time, setTime] = useState(initialAvailableTimes);
-  // const [number, setNumber] = useState([1])
-  // const [occasion, setOccasion] = useState(0);
-
-  //handleSubmit(time)
 
   const handleChange =((e) =>{
     const nextFormState = {
@@ -45,13 +30,8 @@ export default function BookingForm(){
 
   const ValidateEmail= ((input) => {
     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (input.match(validRegex)) {
-      return true;
-    } else {
-      return false;
-        }
-      }
-  );
+    return !!input.match(validRegex);
+  });
 
   const ValidateNumber= ((input) => {
     const validRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
@@ -59,29 +39,57 @@ export default function BookingForm(){
   });
 
   const handleBlur =((e) =>{
-    let errormsg = '';
+    let errorMsg = '';
     switch (e.target.name) {
       case 'firstName':
         break
       case 'email':
-        errormsg = (ValidateEmail(e.target.value) ? 'valid': 'please enter valid email');
+        errorMsg = (ValidateEmail(e.target.value) ? 'valid': 'please enter valid email');
         break
       case 'phone':
-        errormsg = (ValidateNumber(e.target.value) ? 'valid': 'please enter valid number');
+        errorMsg = (ValidateNumber(e.target.value) ? 'valid': 'please enter valid number');
         break;
       default:
         break;
     }
     const nextFormState = {
       ...form,
-      [e.target.name]: {value: e.target.value, isTouched: true, error: errormsg},
+      [e.target.name]: {value: e.target.value, isTouched: true, error: errorMsg},
     };
     setForm(nextFormState);
   });
 
+/*reducer function for time*/
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "CHOOSETIME":
+        state = removeTime(state, action.time);
+        return state;
+      default:
+        return state;
+    }
+  };
+
+  function removeTime(arr, item)
+  {
+    let index = arr.indexOf(item);
+    return [
+      ...arr.slice(0, index),
+      ...arr.slice(index + 1)
+    ];
+  }
+  //
+   const initialAvailableTimes = ['17:00 PM', '18:00 PM', '19:00 PM', '20:00 PM', '21:00 PM', '22:00 PM'];
+  const [availableTimes, dispatch] = useReducer(reducer, initialAvailableTimes);
+
+  const handleComplete = (e) => {
+    e.preventDefault();
+    dispatch({type: "CHOOSETIME", time: form.time.value});
+  };
+
 
   return(
-    <form>
+    <form onSubmit={handleComplete} >
       <VStack spacing={4}>
         <FormControl isInvalid={(!form.firstName.value && form.firstName.isTouched)} isRequired>
           <FormLabel htmlFor="firstName">First Name</FormLabel>
@@ -121,6 +129,25 @@ export default function BookingForm(){
           />
           <FormErrorMessage>{form.phone.error}</FormErrorMessage>
         </FormControl>
+
+        <FormControl isInvalid={(form.time.error !== 'valid') && form.time.isTouched} isRequired>
+          <FormLabel htmlFor="time">Time</FormLabel>
+          <Select
+            type='time'
+            id="time"
+            name="time"
+            onChange={handleChange}
+            value={form.time.value}
+            isInvalid={!form.time.value && form.time.isTouched}
+          >
+            {availableTimes.map((times) =>
+              <option value={times} key={times}>{times}</option>
+            )}
+          </Select>
+          <FormErrorMessage>{form.time.error}</FormErrorMessage>
+        </FormControl>
+
+
         {/*<FormControl isInvalid={formik.touched.phone && formik.errors.phone ? 'true' : 'false'} isRequired>*/}
         {/*  <FormLabel htmlFor="phone">Phone Number</FormLabel>*/}
         {/*  <Input*/}

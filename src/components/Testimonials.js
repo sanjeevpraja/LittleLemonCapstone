@@ -14,28 +14,24 @@ import {Icon, StarIcon} from '@chakra-ui/icons'
 
 const testimonialList = [
   {
-    id: 1,
     name: 'Jenny Wilson',
     rating: 5,
     saying: 'For athletes, high altitude produces two contradictory effects on performance. For explosive events.',
     img: 'avatar-1'
   },
   {
-    id: 2,
     name: 'Marvin McKinney',
     rating: 4,
     saying: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, to',
     img: 'avatar-2'
   },
   {
-    id: 3,
     name: 'Arlene McCoy',
     rating: 4,
     saying: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu',
     img: 'avatar-3'
   },
   {
-    id: 4,
     name: 'Arlene McCoy dsfa',
     rating: 4,
     saying: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatu',
@@ -48,14 +44,13 @@ const Testimonial = (props) => {
   const rating = (count) => {
     let content = [];
     for (let i = 0; i < count; i++) {
-      content.push(<Icon as={StarIcon} color={"yellow.500"} mx={.5}/>);
+      content.push(<Icon as={StarIcon} color={"yellow.500"} mx={.5} key={i}/>);
     }
     return content
   };
 
   return (
-    <GridItem>
-    <Card maxW='sm' >
+    <Card maxW='sm' key={item.id}>
       <CardBody align='center' py={10}>
         <Image
           //src={require(`../img/${item.img}.jpg`)}
@@ -78,15 +73,16 @@ const Testimonial = (props) => {
         </Stack>
       </CardBody>
     </Card>
-    </GridItem>
   )
 }
 
 const Testimonials = () => {
   return(
     <Grid templateColumns='repeat(4, 1fr)' gap={6} >
-      {testimonialList.map((list) => (
-        <Testimonial item={list} key={list.id}/>
+      {testimonialList.map((list, index) => (
+        <GridItem key={index}>
+          <Testimonial item={list}/>
+        </GridItem>
       ))}
     </Grid>
   );

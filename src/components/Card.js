@@ -79,8 +79,8 @@ const Menu = (props) => {
 const MenuCards = () => {
   return(
     <Grid templateColumns='repeat(3, 1fr)' gap={6} >
-    {menuList.map((list) => (
-      <GridItem key={list.title}>
+    {menuList.map((list, index) => (
+      <GridItem key={index}>
         <Menu item={list}/>
       </GridItem>
       ))}

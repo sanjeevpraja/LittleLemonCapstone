@@ -82,7 +82,7 @@ export default function Header() {
               </Box>
               <HStack as={'nav'} spacing={4} display={{base: 'none', md: 'flex'}}>
                 {Links.map((link) => (
-                  <NavLink key={link} url={link.url}>{link.label}</NavLink>
+                  <NavLink key={link.label} url={link.url}>{link.label}</NavLink>
                 ))}
               </HStack>
             </HStack>
