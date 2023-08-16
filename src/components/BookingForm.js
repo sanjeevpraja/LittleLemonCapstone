@@ -59,6 +59,19 @@ export default function BookingForm(){
     dispatch({type: "COMPLETE", time: time});
   };
 
+  // const [firstName, setFirstName] = useState(0);
+  // const [email, setEmail] = useState(0);
+  // const [phone, setPhone] = useState(0);
+  // const [remarks, setRemarks] = useState(0);
+  //
+  // const [date, setDate] = useState(new Date());
+  // const [time, setTime] = useState(availableTimes[0]);
+  // const [number, setNumber] = useState([1])
+  // const [occasion, setOccasion] = useState(0);
+
+
+
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
