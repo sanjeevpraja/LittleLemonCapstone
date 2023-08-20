@@ -11,16 +11,11 @@ const content = {
   desc: 'We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist',
   btnLabel: 'Reserve a Table'
 };
-const imgStyle = {
-  position: 'absolute',
-  right: 0,
-  borderRadius: '15px'
-};
 
 export default function Home(){
   return(
     <>
-    <Hero content={content} imgStyle={imgStyle}/>
+      <Hero content={content}  className="hero-img is-home"/>
       <Box className='mid-container'>
         <Flex h={24} w="100%" alignItems={'center'} justifyContent={'space-between'}>
           <Box>

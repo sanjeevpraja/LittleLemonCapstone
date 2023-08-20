@@ -5,7 +5,7 @@ import {
   IconButton,
   Img,
   useDisclosure,
-  useColorModeValue,
+  useColorModeValue, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody,
 } from '@chakra-ui/react'
 import {HamburgerIcon, CloseIcon} from '@chakra-ui/icons'
 import logo from '.././img/logo.png';
@@ -69,23 +69,36 @@ export default function Header() {
       <Box bg={useColorModeValue('gray.100', 'gray.900')}>
         <div className='mid-container'>
           <Flex h={24} w="100%" alignItems={'center'} justifyContent={'space-between'}>
-            <IconButton
-              size={'md'}
-              icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
-              aria-label={'Open Menu'}
-              display={{md: 'none'}}
-              onClick={isOpen ? onClose : onOpen}
-            />
             <HStack spacing={8} w="100%" alignItems={'center'} justifyContent={'space-between'}>
               <Box>
                 <Img src={logo} style={{height: '56px'}}/>
               </Box>
-              <HStack as={'nav'} spacing={4} display={{base: 'none', md: 'flex'}}>
+              <HStack as={'nav'} spacing={4} display={{base: 'none', lg: 'flex'}}>
                 {Links.map((link) => (
                   <NavLink key={link.label} url={link.url}>{link.label}</NavLink>
                 ))}
               </HStack>
             </HStack>
+            <Drawer placement='right' onClose={onClose} isOpen={isOpen}>
+              <DrawerOverlay />
+              <DrawerContent>
+                <DrawerBody>
+                  <Box as={'nav'} spacing={4}  className="nav-menu-bar" >
+                    {Links.map((link) => (
+                      <NavLink key={link.label} url={link.url}>{link.label}</NavLink>
+                    ))}
+                  </Box>
+                </DrawerBody>
+              </DrawerContent>
+            </Drawer>
+            <IconButton
+              size={'lg'}
+              icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
+              aria-label={'Open Menu'}
+              display={{lg: 'none'}}
+              // onClick={isOpen ? onClose : onOpen}
+              onClick={onOpen}
+            />
           </Flex>
         </div>
       </Box>

@@ -4,11 +4,11 @@ import HeroImg from '.././img/hero-img.jpg';
 
 export  default function Hero (props){
     const content = props.content;
-    const imgStyle = props.imgStyle;
+    const className = props.className;
     return (
       <Box className='hero-wrap' mb={20}>
         <Box className='mid-container'>
-        <Grid templateColumns='repeat(2, 1fr)' gap={6} alignItems='center'>
+        <Grid templateColumns={{lg: '2fr 1fr', md: '1fr'}} gap={6} alignItems='center'>
             <GridItem w='100%' >
                 <Heading as='h1' size='4xl' noOfLines={1} mt={5} color={"secondary.500"}>
                   {content.title}
@@ -20,7 +20,7 @@ export  default function Hero (props){
                 {content.btnLabel && <Button colorScheme='secondary' color='#000000'>{content.btnLabel}</Button>}
             </GridItem>
             <GridItem w='100%' h='100%' position='relative'>
-              <Img src={HeroImg}  style={imgStyle}/>
+              <Img src={HeroImg} className={className} />
             </GridItem>
         </Grid>
         </Box>

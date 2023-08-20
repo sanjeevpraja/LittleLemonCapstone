@@ -21,9 +21,12 @@ const addZero= (num) =>{
     return num;
   }
 }
-export default function BookingForm(){
+export default function BookingForm(props){
+  const initialOccasions = props.initialOccasions;
+  const initialAvailableTimes = props.initialAvailableTimes;
+
   const today = new Date();
-   const formatToday = today.getFullYear() + '-' + addZero(today.getMonth()+1)+ '-' + addZero(today.getDate())
+  const formatToday = today.getFullYear() + '-' + addZero(today.getMonth()+1)+ '-' + addZero(today.getDate())
 
   const [form, setForm] = useState({
     firstName: {value: '', isTouched: false, error: ''},
@@ -32,7 +35,7 @@ export default function BookingForm(){
     remarks: {value: '', isTouched: false, error: '' },
 
     date: {value: formatToday, isTouched: false, error: '' },
-    time: {value: '17:00 PM', isTouched: false, error: '' },
+    time: {value: '', isTouched: false, error: '' },
     number: {value: '', isTouched: false, error: '' },
     occasion: {value: '', isTouched: false, error: '' }
   });
@@ -42,7 +45,7 @@ export default function BookingForm(){
       ...form,
       [e.target.name]: {value: e.target.value, isTouched: true},
     };
-    if(e.target.name == 'date'){
+    if(e.target.name === 'date'){
       dispatch({type: "CHOOSEDATE", date: form.date.value});
     };
     setForm(nextFormState);
@@ -79,18 +82,17 @@ export default function BookingForm(){
     setForm(nextFormState);
   });
 
-/*reducer function for time*/
+/*reducer function*/
   const reducer = (state, action) => {
     switch (action.type) {
       case "CHOOSEDATE":
         state = initialTimes(state, action.date);
         return state;
       case "CHOOSETIME":
-        //state = removeTime(state, action.time);
         state = updateTimes(state, action.time);
         return state;
       default:
-        return state;
+        throw new Error();
     }
   };
   function updateTimes(arr, item)
@@ -100,41 +102,12 @@ export default function BookingForm(){
     return arr;
   }
 
-
-   const initialAvailableTimes = [
-     {
-       label: '11:00 PM',
-       isReserved: true
-     },
-     {
-       label: '18:00 PM',
-       isReserved: false
-     },
-     {
-       label: '19:00 PM',
-       isReserved: false
-     },
-     {
-       label: '20:00 PM',
-       isReserved: false
-     },
-     {
-       label: '21:00 PM',
-       isReserved: false
-     },
-     {
-       label: '2:00 PM',
-       isReserved: false
-     }
-   ];
-
   const initialTimes = (times, date) =>{
     times = fetchAPI(new Date(date));
     return times;
   }
 
-
-  const [availableTimes, dispatch] = useReducer(reducer, initialAvailableTimes, initialTimes);
+  const [availableTimes, dispatch] = useReducer(reducer, initialAvailableTimes);
 
   const handleComplete = (e) => {
     e.preventDefault();
@@ -148,7 +121,6 @@ export default function BookingForm(){
     if (response) navigate('/confirmedBooking');
   };
 
-  const intialOccassions = ['Birthday','Anniversary', 'Business Meeting', 'others'];
 
   return(
     <form onSubmit={handleComplete} >
@@ -162,6 +134,7 @@ export default function BookingForm(){
             onBlur={handleBlur}
             value={form.firstName.value}
             isInvalid={(!form.firstName.value && form.firstName.isTouched)}
+            aria-label="Enter your first name"
           />
           <FormErrorMessage data-testid="error-message-firstname">Please provide valid name</FormErrorMessage>
         </FormControl>
@@ -175,6 +148,7 @@ export default function BookingForm(){
             onBlur={handleBlur}
             value={form.email.value}
             isInvalid={!form.email.value && form.email.isTouched}
+            aria-label="Enter your valid eamil"
           />
           <FormErrorMessage>{form.email.error}</FormErrorMessage>
         </FormControl>
@@ -189,6 +163,7 @@ export default function BookingForm(){
             value={form.phone.value}
             isInvalid={!form.phone.value && form.phone.isTouched}
             placeholder='xxx-xxx-xxxx'
+            aria-label="Enter your 10 digit phone number seperated by dash"
           />
           <FormErrorMessage>{form.phone.error}</FormErrorMessage>
         </FormControl>
@@ -201,6 +176,7 @@ export default function BookingForm(){
             onBlur={handleBlur}
             value={form.remarks.value}
             isInvalid={!form.remarks.value && form.remarks.isTouched}
+            aria-label="Any remarks"
           />
         </FormControl>
         <FormControl isInvalid={(!form.date.value && form.date.isTouched)} isRequired>
@@ -213,8 +189,9 @@ export default function BookingForm(){
             onBlur={handleBlur}
             value={form.date.value}
             isInvalid={(!form.date.value && form.date.isTouched)}
+            aria-label="Choose registration Date"
           />
-          <FormErrorMessage>Please provide valid name</FormErrorMessage>
+          <FormErrorMessage>Please provide date</FormErrorMessage>
         </FormControl>
 
         <Divider/>
@@ -226,6 +203,7 @@ export default function BookingForm(){
             onChange={handleChange}
             value={form.time.value}
             isInvalid={!form.time.value && form.time.isTouched}
+            aria-label="Choose available time"
           >
             {availableTimes.map((time, index) =>
               <option value={time.label} key={index} disabled={time.isReserved} data-testid="time-option">{time.label}{time.isReserved}</option>
@@ -246,6 +224,7 @@ export default function BookingForm(){
             onBlur={handleBlur}
             value={form.number.value}
             isInvalid={!form.number.value && form.number.isTouched}
+            aria-label="Enter number of people maximum 20 allowed"
           />
           <FormErrorMessage>{form.number.error}</FormErrorMessage>
         </FormControl>
@@ -258,15 +237,16 @@ export default function BookingForm(){
             onChange={handleChange}
             value={form.occasion.value}
             isInvalid={!form.occasion.value && form.occasion.isTouched}
+            aria-label="Select occation for reservation"
           >
-            {intialOccassions.map((occasion, index) =>
+            {initialOccasions.map((occasion, index) =>
               <option value={occasion} key={index} data-testid="occasion-option">{occasion}</option>
             )}
           </Select>
           <FormErrorMessage>{form.occasion.error}</FormErrorMessage>
         </FormControl>
       </VStack>
-      <Button type="submit" colorScheme="purple" colorScheme={"primary"} mt={5}>
+      <Button type="submit" colorScheme="purple" colorScheme={"primary"} mt={5} role='button'>
         Make Your Reservation
       </Button>
     </form>

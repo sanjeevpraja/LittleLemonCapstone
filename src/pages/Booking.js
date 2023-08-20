@@ -1,5 +1,5 @@
 import Hero from '.././components/Hero';
-import React, {useState} from "react";
+import React from "react";
 import {
   Box,
   Grid,
@@ -15,7 +15,6 @@ const content = {
   btnLabel: ''
 };
 const imgStyle = {
-  float: 'right',
   height: '300px',
   borderRadius: '15px'
 };
@@ -23,13 +22,57 @@ const imgStyle = {
 
 
 export default function Booking(){
+  const initialOccasions = ['Birthday','Anniversary', 'Business Meeting', 'others'];
+  const initialAvailableTimes = [
+    {
+      label: '17:00 PM',
+      isReserved: true
+    },
+    {
+      label: '17:30 PM',
+      isReserved: true
+    },
+    {
+      label: '18:00 PM',
+      isReserved: false
+    },
+    {
+      label: '18:30 PM',
+      isReserved: false
+    },
+    {
+      label: '19:00 PM',
+      isReserved: false
+    },
+    {
+      label: '19:30 PM',
+      isReserved: false
+    },
+    {
+      label: '20:00 PM',
+      isReserved: false
+    },
+    {
+      label: '20:30 PM',
+      isReserved: false
+    },
+    {
+      label: '21:00 PM',
+      isReserved: false
+    },
+    {
+      label: '21:30 PM',
+      isReserved: false
+    }
+  ];
+
   return(
     <>
-    <Hero content={content} imgStyle={imgStyle}/>
+    <Hero content={content} className="hero-img"/>
       <Box className='mid-container'>
-        <Grid templateColumns='2fr 1fr' gap={6}>
+        <Grid templateColumns={{lg: '2fr 1fr', md: '1fr'}} gap={6}>
           <GridItem w='100%'>
-            <BookingForm />
+            <BookingForm initialOccasions={initialOccasions} initialAvailableTimes={initialAvailableTimes}/>
           </GridItem>
           <GridItem w='100%' />
         </Grid>
