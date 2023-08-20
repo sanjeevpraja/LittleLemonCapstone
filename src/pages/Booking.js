@@ -8,8 +8,6 @@ import {
 import BookingForm from "../components/BookingForm";
 
 
-
-
 const content = {
   title: 'Booking',
   subTitle: 'Please fill form to reserve table',

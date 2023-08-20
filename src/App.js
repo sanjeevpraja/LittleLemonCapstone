@@ -4,6 +4,7 @@ import FooterWithLogoLeft from "./components/Footer";
 import Home from "./pages/Home";
 import Booking from "./pages/Booking";
 import Components from "./pages/Components";
+import ConfirmedBooking from "./pages/ConfirmedBooking";
 import {ChakraProvider} from "@chakra-ui/react";
 import Color from 'color';
 import { extendTheme } from "@chakra-ui/react"
@@ -66,6 +67,7 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/reservation" element={<Booking />} />
             <Route exact path="/components" element={<Components />} />
+            <Route exact path="/confirmedBooking" element={<ConfirmedBooking />} />
           </Routes>
         </Router>,
         <FooterWithLogoLeft/>
