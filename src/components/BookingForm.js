@@ -36,15 +36,6 @@ export default function BookingForm(){
     number: {value: '', isTouched: false, error: '' },
     occasion: {value: '', isTouched: false, error: '' }
   });
-  // const [firstName, setFirstName] = useState(0);
-  // const [email, setEmail] = useState(0);
-  // const [phone, setPhone] = useState(0);
-  // const [remarks, setRemarks] = useState(0);
-  //
-  // const [date, setDate] = useState(new Date());
-  // const [time, setTime] = useState(availableTimes[0]);
-  // const [number, setNumber] = useState([1])
-  // const [occasion, setOccasion] = useState(0);
 
   const handleChange =((e) =>{
     const nextFormState = {
@@ -110,15 +101,6 @@ export default function BookingForm(){
   }
 
 
-  // function removeTime(arr, item)
-  // {
-  //   let index = arr.indexOf(item);
-  //   return [
-  //     ...arr.slice(0, index),
-  //     ...arr.slice(index + 1)
-  //   ];
-  //}
-
    const initialAvailableTimes = [
      {
        label: '11:00 PM',
@@ -145,9 +127,6 @@ export default function BookingForm(){
        isReserved: false
      }
    ];
-
-  // const initialTimes = (initialAvailableTimes) =>
-  //   [...initialAvailableTimes, ...fetchAPI(new Date())];
 
   const initialTimes = (times, date) =>{
     times = fetchAPI(new Date(date));
